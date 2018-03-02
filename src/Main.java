@@ -16,10 +16,9 @@ public class Main {
 		int x = frameWidth/2 - gameWidth/2;
 		JFrame jf = new JFrame();
 		GamePlay play = new GamePlay();
-		jf.add(play);
 		jf.setBounds(x,y,gameWidth,gameHeight);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setBackground(Color.PINK);
+		jf.add(play);
 		jf.setVisible(true);
 
 	}
