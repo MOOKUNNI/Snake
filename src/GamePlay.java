@@ -2,6 +2,7 @@ import javax.swing.Timer;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -48,13 +49,16 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 	public void drawSTARTScreen() {
 
 	}
-	public void drawPLAYScreen(Graphics g) {
+	public void drawPLAYScreen(Graphics g) {	
 		apple.repaint(g);
 		snake.repaint(g);
-		if (snapple) { 
+
+		snake.move(currentDirection);	
+		
+		if (snakeEatsApple()) { 
+			snake.dontShrink = true;
 			apple.newLocation();
 		}
-		
 	}
 	public void drawGAMEOVERScreen() {
 		
@@ -87,12 +91,20 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 			currentDirection = SnakeDirection.LEFT;
 			break;
 		}
-		System.out.println(currentDirection);
-	}
+		}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		
+	}
+	public boolean snakeEatsApple()  {
+		Point head = snake.body.get(0);
+		if (apple.p.x == head.x && apple.p.y == head.y) {
+			return true;
+		}else{
+			return false;
+		}
+	
 	}
 
 }

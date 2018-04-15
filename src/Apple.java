@@ -8,7 +8,7 @@ public class Apple {
 	private int width = 20;
 	private int gameWidth;
 	private int gameHeight;
-	private Point p;
+	public Point p;
 	public Apple(int gh, int gw) {
 		gameWidth = gw;
 		gameHeight = gh;
@@ -18,8 +18,10 @@ public class Apple {
 	public void newLocation() {
 		int x = new Random().nextInt(gameWidth - width);
 		int y = new Random().nextInt(gameHeight - height - 22);
-		int xPos = Math.max(0,x);
-		int yPos = Math.max(0,y);
+		int xPos = (int) Math.ceil(x/width)*width;
+		int yPos = (int) Math.ceil(y/width)*width;
+		System.out.println(xPos);
+		System.out.println(yPos);
 		p = new Point(xPos,yPos);
 	}
 	public void repaint(Graphics g) {
