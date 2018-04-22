@@ -22,6 +22,9 @@ public class Snake {
 		g.setColor(Color.black);
 		for(int counter = 0; counter < body.size(); counter++){
 			Point p = body.get(counter);
+			if(counter > 0) {
+				g.setColor(Color.PINK);
+			}
 			g.fillRect(p.x, p.y, width, height);
 		}
 	}

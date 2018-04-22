@@ -1,6 +1,7 @@
 import javax.swing.Timer;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 	public GameState nS = GameState.PLAY;
 	public boolean snapple = false;
 	public SnakeDirection currentDirection = SnakeDirection.RIGHT;
+	int score = 0;
 	
 	public GamePlay() {
 		System.out.println("Start");
@@ -58,7 +60,22 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 		if (snakeEatsApple()) { 
 			snake.dontShrink = true;
 			apple.newLocation();
+			score = score + 1;
 		}
+		printScore(g);
+		Point head = snake.body.get(0);
+		if (head.y < 0 || head.y > 500 - 22) {
+			System.out.println("dead");
+			nS = GameState.GAMEOVER;
+		}			
+		
+		if (head.x < 0 || head.x > 500) {
+			nS = GameState.GAMEOVER;
+
+		}
+		headEatsBody();
+		
+		
 	}
 	public void drawGAMEOVERScreen() {
 		
@@ -105,6 +122,20 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 			return false;
 		}
 	
+	}
+	public void printScore(Graphics g) {
+		g.setFont(new Font("Arial", Font.PLAIN, 30));
+		g.drawString(Integer.toString(score), 500 - 50, 50);
+	}
+	public void headEatsBody() {
+		Point head= snake.body.get(0);
+		for(int counter = 1; counter < snake.body.size(); counter++){
+			Point currentBody = snake.body.get(counter);
+		
+			if (head.x == currentBody.x && head.y == currentBody.y) {
+				nS = GameState.GAMEOVER;
+			}
+		}
 	}
 
 }
