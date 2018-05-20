@@ -1,6 +1,7 @@
 import javax.swing.Timer;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -8,48 +9,70 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class GamePlay extends JPanel implements KeyListener, ActionListener {
+public class GamePlay extends JPanel implements KeyListener, ActionListener,MouseListener {
 	public Timer timer;
 	public Apple apple;
 	public Snake snake;
-	public GameState nS = GameState.PLAY;
+	public GameState nS = GameState.START;
 	public boolean snapple = false;
 	public SnakeDirection currentDirection = SnakeDirection.RIGHT;
 	int score = 0;
 	
 	public GamePlay() {
 		System.out.println("Start");
-		timer = new Timer(100, this);
+		setPreferredSize(new Dimension(500,500));
+		timer = new Timer(130, this);
 		timer.start();
 		apple = new Apple(500,500);
 		snake = new Snake(500,500);
 		this.addKeyListener(this);
+		this.addMouseListener(this);
 		this.setFocusable(true);
 		this.setFocusTraversalKeysEnabled(false);
+		this.setBackground(new Color(237, 42, 143));
 	}
 
 	public void paint(Graphics g) {
 		drawBackground(g);
 		if (nS == GameState.START) {
-			drawSTARTScreen();
+			drawSTARTScreen(g);
 		}
 		if (nS == GameState.PLAY) {
 			drawPLAYScreen(g);
 		}
 		if (nS == GameState.GAMEOVER) {
-			drawGAMEOVERScreen();
+			drawGAMEOVERScreen(g);
 		}
 		
 	}
 	public void drawBackground(Graphics g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.RED);
 		g.drawRect(0, 0, 500, 500);
 	}
-	public void drawSTARTScreen() {
-
+	public void drawSTARTScreen(Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		try {
+			BufferedImage logo = ImageIO.read(new File("./res/logo.png"));
+			int x = 500/2 - logo.getWidth()/2;
+			int y = 500/2 - logo.getHeight()/2;
+			g.drawImage(logo,x,y,this);
+			BufferedImage playLogo = ImageIO.read(new File("./res/play_button.png"));
+			int xint = 500/2 - playLogo.getWidth()/2;
+			int yint = 500/2 - playLogo.getHeight()/2+50;
+			g.drawImage(playLogo,xint,yint,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void drawPLAYScreen(Graphics g) {	
 		apple.repaint(g);
@@ -77,8 +100,20 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 		
 		
 	}
-	public void drawGAMEOVERScreen() {
-		
+	public void drawGAMEOVERScreen(Graphics g) {
+		try {
+			BufferedImage logo = ImageIO.read(new File("./res/game_over.png"));
+			int x = 500/2 - logo.getWidth()/2;
+			int y = 500/2 - logo.getHeight()/2;
+			g.drawImage(logo,x,y,this);
+			BufferedImage playLogo = ImageIO.read(new File("./res/replay_button.png"));
+			int xint = 500/2 - playLogo.getWidth()/2;
+			int yint = 500/2 - playLogo.getHeight()/2+50;
+			g.drawImage(playLogo,xint,yint,this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -107,6 +142,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 		case KeyEvent.VK_LEFT:
 			currentDirection = SnakeDirection.LEFT;
 			break;
+		case KeyEvent.VK_SPACE:
+			nS = GameState.PLAY;
 		}
 		}
 
@@ -136,6 +173,42 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 				nS = GameState.GAMEOVER;
 			}
 		}
+	}
+public void resetGame() {
+	score = 0;
+	snake = new Snake(500,500);
+}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(nS == GameState.START || nS == GameState.GAMEOVER) {
+			resetGame();
+			nS = GameState.PLAY;
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

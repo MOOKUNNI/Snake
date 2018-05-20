@@ -25,7 +25,7 @@ public class Apple {
 		p = new Point(xPos,yPos);
 	}
 	public void repaint(Graphics g) {
-		g.setColor(Color.red);
+		g.setColor(Color.white);
 		g.fillRect(p.x, p.y, width, height);
 	}
 }

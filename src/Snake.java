@@ -13,10 +13,10 @@ public class Snake {
 	public Snake(int gh, int gw) {
 		gameWidth = gw;
 		gameHeight = gh;
-		Point head = new Point(100,100);
-		body.add(head);
-		
-		
+ 		Point head = new Point(100,100);
+  		body.add(head);
+ 		
+ 		
 	}
 	public void repaint(Graphics g) {
 		g.setColor(Color.black);
